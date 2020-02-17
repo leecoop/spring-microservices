@@ -37,4 +37,12 @@ public class UserServiceImpl implements UserService {
         return new org.springframework.security.core.userdetails.User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
 
     }
+
+    @Override
+    public User getUserByEmail(String email) {
+        final UserEntity userEntity = persist.findByEmail(email);
+        Assert.notNull(userEntity, "User can't be found. Email: " + email);
+
+        return userEntity;
+    }
 }

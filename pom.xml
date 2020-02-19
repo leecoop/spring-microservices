@@ -10,6 +10,7 @@
 
 
     <modules>
+        <module>spring-cloud-config-server</module>
         <module>netflix-eureka-naming-server</module>
         <module>netflix-zuul-api-gateway-server</module>
         <module>user-service</module>

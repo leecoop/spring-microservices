@@ -25,13 +25,14 @@ import java.util.Objects;
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
     private final String AUTHORIZATION_TOKEN_HEADER_PREFIX;
-    private final String TOKEN_SECRET;
+    private Environment environment;
 
     public AuthorizationFilter(AuthenticationManager authenticationManager, Environment environment) {
         super(authenticationManager);
 
         AUTHORIZATION_TOKEN_HEADER_PREFIX = environment.getProperty("authorization.token.header.prefix");
-        TOKEN_SECRET = environment.getProperty("token.secret");
+         this.environment = environment;
+
     }
 
     @Override
@@ -61,7 +62,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         String token = authorizationHeader.replace(AUTHORIZATION_TOKEN_HEADER_PREFIX, "");
 
         String userId = Jwts.parser()
-                .setSigningKey(TOKEN_SECRET)
+                .setSigningKey(environment.getProperty("token.secret"))
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();

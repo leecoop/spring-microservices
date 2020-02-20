@@ -28,3 +28,10 @@
 	- load user entity from db
 	- generate JWT token
 	- append token and userId to response header
+	
+	
+![spring-microservices.png](https://github.com/leecoop/spring-microservices/blob/master/spring-microservices.png)
+![spring-microservices-cloud-bus.png](https://github.com/leecoop/spring-microservices/blob/master/spring-microservices-cloud-bus.png)
+![spring-cloud-config-server-kafka-bus.png](https://github.com/leecoop/spring-microservices/blob/master/spring-cloud-config-server-kafka-bus.png)	
+![spring-microservices-prop-files.png](https://github.com/leecoop/spring-microservices/blob/master/spring-microservices-prop-files.png)
+

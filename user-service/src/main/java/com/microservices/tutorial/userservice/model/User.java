@@ -29,4 +29,7 @@ public class User {
 
     private String userId;
 
+    @Transient
+    private AccountDetails accountDetails;
+
 }

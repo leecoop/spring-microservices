@@ -25,8 +25,13 @@ public class UserController {
     @PostMapping
     @ResponseStatus(CREATED)
     public User createUser(@RequestBody @Valid UserEntity user) {
-
         return userService.create(user);
+    }
 
+
+    @GetMapping("/{userId}")
+    @ResponseStatus(CREATED)
+    public User getUser(@PathVariable String userId) {
+        return userService.get(userId);
     }
 }

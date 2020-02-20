@@ -1,13 +1,17 @@
 package com.microservices.tutorial.userservice.service.impl;
 
+import com.microservices.tutorial.userservice.model.AccountDetails;
 import com.microservices.tutorial.userservice.model.User;
 import com.microservices.tutorial.userservice.model.entity.UserEntity;
 import com.microservices.tutorial.userservice.persist.UsersPersist;
 import com.microservices.tutorial.userservice.service.UserService;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
@@ -18,9 +22,12 @@ import java.util.ArrayList;
 public class UserServiceImpl implements UserService {
 
     private final UsersPersist persist;
+    private final RestTemplate restTemplate;
 
-    public UserServiceImpl(UsersPersist persist) {
+
+    public UserServiceImpl(UsersPersist persist, RestTemplate restTemplate) {
         this.persist = persist;
+        this.restTemplate = restTemplate;
     }
 
 
@@ -44,5 +51,17 @@ public class UserServiceImpl implements UserService {
         Assert.notNull(userEntity, "User can't be found. Email: " + email);
 
         return userEntity;
+    }
+
+    @Override
+    public User get(String userId) {
+        final UserEntity user = persist.findByUserId(userId);
+        Assert.notNull(user, " User Not found, with id: " + userId);
+
+
+        final ResponseEntity<AccountDetails> accountDetailsResponse = restTemplate.exchange(String.format("http://account-management-service/account/%s", userId), HttpMethod.GET, null, AccountDetails.class);
+        user.setAccountDetails(accountDetailsResponse.getBody());
+
+        return user;
     }
 }

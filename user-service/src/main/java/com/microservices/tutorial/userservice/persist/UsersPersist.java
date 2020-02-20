@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UsersPersist extends JpaRepository<UserEntity, Long> {
 
     UserEntity findByEmail(String email);
+
+    UserEntity findByUserId (String userId);
 }

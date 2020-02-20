@@ -31,3 +31,5 @@
 	
 	
 ![spring-microservices.png](https://github.com/leecoop/spring-microservices/blob/master/spring-microservices.png)	
+![spring-microservices-cloud-bus.png](https://github.com/leecoop/spring-microservices/blob/master/spring-microservices-cloud-bus.png)	
+

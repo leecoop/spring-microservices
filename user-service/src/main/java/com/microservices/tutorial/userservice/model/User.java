@@ -1,5 +1,6 @@
 package com.microservices.tutorial.userservice.model;
 
+import com.microservices.tutorial.accountmanagementservice.model.AccountDetails;
 import lombok.Data;
 
 import javax.persistence.Column;

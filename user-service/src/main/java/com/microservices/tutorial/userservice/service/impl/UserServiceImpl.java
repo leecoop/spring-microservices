@@ -1,6 +1,7 @@
 package com.microservices.tutorial.userservice.service.impl;
 
-import com.microservices.tutorial.userservice.model.AccountDetails;
+import com.microservices.tutorial.accountmanagementservice.model.AccountDetails;
+import com.microservices.tutorial.userservice.client.AccountManagementClient;
 import com.microservices.tutorial.userservice.model.User;
 import com.microservices.tutorial.userservice.model.entity.UserEntity;
 import com.microservices.tutorial.userservice.persist.UsersPersist;
@@ -23,11 +24,13 @@ public class UserServiceImpl implements UserService {
 
     private final UsersPersist persist;
     private final RestTemplate restTemplate;
+    private final AccountManagementClient accountManagementClient;
 
 
-    public UserServiceImpl(UsersPersist persist, RestTemplate restTemplate) {
+    public UserServiceImpl(UsersPersist persist, RestTemplate restTemplate, AccountManagementClient accountManagementClient) {
         this.persist = persist;
         this.restTemplate = restTemplate;
+        this.accountManagementClient = accountManagementClient;
     }
 
 
@@ -58,9 +61,13 @@ public class UserServiceImpl implements UserService {
         final UserEntity user = persist.findByUserId(userId);
         Assert.notNull(user, " User Not found, with id: " + userId);
 
+//       ### RestTemplate ####
+//        final ResponseEntity<AccountDetails> accountDetailsResponse = restTemplate.exchange(String.format("http://account-management-service/account/%s", userId), HttpMethod.GET, null, AccountDetails.class);
+//        final AccountDetails userAccount =accountDetailsResponse.getBody();
+//       ### RestTemplate ####
 
-        final ResponseEntity<AccountDetails> accountDetailsResponse = restTemplate.exchange(String.format("http://account-management-service/account/%s", userId), HttpMethod.GET, null, AccountDetails.class);
-        user.setAccountDetails(accountDetailsResponse.getBody());
+        final AccountDetails userAccount = accountManagementClient.getUserAccount(userId);
+        user.setAccountDetails(userAccount);
 
         return user;
     }

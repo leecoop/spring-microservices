@@ -1,6 +1,6 @@
-package com.microservices.tutorial.userservice.configuration.security;
+package com.microservices.tutorial.loginservice.security;
 
-import com.microservices.tutorial.userservice.service.UserService;
+import com.microservices.tutorial.loginservice.service.LoginService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,12 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final LoginService loginService;
     private final Environment environment;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurity(UserService userService, Environment environment, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userService = userService;
+    public WebSecurity(LoginService loginService, Environment environment, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.loginService = loginService;
         this.environment = environment;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -33,13 +33,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/**").permitAll()
                 .and().addFilter(getAuthenticationFilter());
-        http.headers().frameOptions().disable();
-
-
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, environment);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(loginService, environment);
         authenticationFilter.setAuthenticationManager(authenticationManager());
         return authenticationFilter;
 
@@ -47,6 +44,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(loginService).passwordEncoder(bCryptPasswordEncoder);
     }
 }

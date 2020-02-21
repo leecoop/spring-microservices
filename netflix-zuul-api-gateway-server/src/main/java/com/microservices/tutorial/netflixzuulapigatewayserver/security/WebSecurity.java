@@ -29,7 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user-service/login", "/user-service/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/login-service/login", "/user-service/users").permitAll()
                 .antMatchers("/user-service/h2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

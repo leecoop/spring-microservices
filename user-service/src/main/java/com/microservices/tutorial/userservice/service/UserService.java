@@ -1,16 +1,16 @@
 package com.microservices.tutorial.userservice.service;
 
+import com.microservices.tutorial.userservice.model.InternalUser;
 import com.microservices.tutorial.userservice.model.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Created by LEONMAT on 17/2/2020.
  */
-public interface UserService extends UserDetailsService{
+public interface UserService {
 
     User create(User user);
 
-    User getUserByEmail(String email);
+    InternalUser getUserByEmail(String email);
 
     User get(String userId);
 }

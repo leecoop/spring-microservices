@@ -1,4 +1,4 @@
-package com.microservices.tutorial.userservice.model;
+package com.microservices.tutorial.loginservice.model;
 
 import lombok.Data;
 

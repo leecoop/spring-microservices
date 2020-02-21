@@ -13,8 +13,8 @@
         <module>spring-cloud-config-server</module>
         <module>netflix-eureka-naming-server</module>
         <module>netflix-zuul-api-gateway-server</module>
-        <module>login-service</module>
-        <module>user-service</module>
         <module>account-management-service</module>
+        <module>user-service</module>
+        <module>login-service</module>
     </modules>
 </project>

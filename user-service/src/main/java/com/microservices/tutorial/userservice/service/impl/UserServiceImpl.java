@@ -7,6 +7,8 @@ import com.microservices.tutorial.userservice.model.User;
 import com.microservices.tutorial.userservice.model.entity.UserEntity;
 import com.microservices.tutorial.userservice.persist.UsersPersist;
 import com.microservices.tutorial.userservice.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UsersPersist persist;
     private final RestTemplate restTemplate;
@@ -53,8 +56,10 @@ public class UserServiceImpl implements UserService {
 //        final ResponseEntity<AccountDetails> accountDetailsResponse = restTemplate.exchange(String.format("http://account-management-service/account/%s", userId), HttpMethod.GET, null, AccountDetails.class);
 //        final AccountDetails userAccount =accountDetailsResponse.getBody();
 //       ### RestTemplate ####
-
+        LOGGER.info("Before Calling Account Management Service ");
         final AccountDetails userAccount = accountManagementClient.getUserAccount(userId);
+        LOGGER.info("After Calling Account Management Service ");
+
         user.setAccountDetails(userAccount);
 
         return user;
